@@ -23,11 +23,13 @@
 
 ## 操作步骤(TODO)
  1. 启动宁夏区域EasyVPN Server模版
+ 
     AWS Region   | YAML Format 
     ------------ | ------------
     宁夏区域 | [![launch-yaml](images/cloudformation-launch-stack-button.png)](https://console.amazonaws.cn/cloudformation/home?region=cn-northwest-1#/stacks/new?stackName=EasyVPNServer&amp;templateURL=https://s3.cn-northwest-1.amazonaws.com.cn/nwcdlabs/templates/easy-vpc-peering/EasyVPN_Server.yaml)
  2. 修改目标子网对应路由表信息，增加到北京区域VPC网段路由信息
  3. 启动北京区域EasyVPN Client模版
+ 
     AWS Region   | YAML Format 
     ------------ | ------------
     北京区域 | [![launch-yaml](images/cloudformation-launch-stack-button.png)](https://console.amazonaws.cn/cloudformation/home?region=cn-northwest-1#/stacks/new?stackName=EasyVPNClient&amp;templateURL=https://s3.cn-northwest-1.amazonaws.com.cn/nwcdlabs/templates/easy-vpc-peering/EasyVPN_Client.yaml)
