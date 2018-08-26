@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  AWS CloudFormation Sample Template EasyVPN_Server: Sample template showing how
+  AWS CloudFormation Sample Template EasyVPN_Client: Sample template showing how
   to create an instance with a single network interface and a static IP
   addresses in an existing VPC and setup the OpenVPN server environment. It
   assumes you have already created a VPC. **WARNING** This template creates an
@@ -12,7 +12,7 @@ Parameters:
     Type: 'AWS::EC2::KeyPair::KeyName'
     ConstraintDescription: must be the name of an existing EC2 KeyPair.
   InstanceType:
-    Description: EasyServer EC2 instance type
+    Description: EasyClient EC2 instance type
     Type: String
     Default: t2.micro
     AllowedValues:
@@ -23,6 +23,14 @@ Parameters:
     Type: 'AWS::EC2::VPC::Id'
     Description: VpcId of your existing Virtual Private Cloud (VPC)
     ConstraintDescription: must be the VPC Id of an existing Virtual Private Cloud.
+  VpcCIDR:
+    Description: VPC CIDR
+    Type: String
+    MinLength: '9'
+    MaxLength: '18'
+    Default: 0.0.0.0/0
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
   SubnetId:
     Type: 'AWS::EC2::Subnet::Id'
     Description: SubnetId of an existing public subnet in your Virtual Private Cloud (VPC)
@@ -35,6 +43,21 @@ Parameters:
     Default: 0.0.0.0/0
     AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+  VPNServerIP:
+    Description: The IP address of remote VPN Server EIP
+    Type: String
+    MinLength: '7'
+    MaxLength: '15'
+    Default: 0.0.0.0
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})'
+    ConstraintDescription: Must be a valid IP address
+  PSK:
+    Description: VPN PSK
+    Type: String
+    MinLength: '0'
+    MaxLength: '512'
+    Default: ''
+    ConstraintDescription: 512 byte from VPN Server Cloudformation output
 Mappings:
   AWSInstanceType2Arch:
     t2.micro:
@@ -130,7 +153,7 @@ Mappings:
       DownloadS3Region: cn-northwest-1
       S3Domain: amazonaws.com.cn
 Resources:
-  VPNServerEIP:
+  VPNClientEIP:
     Type: 'AWS::EC2::EIP'
     Properties:
       Domain: vpc
@@ -139,7 +162,7 @@ Resources:
     Properties:
       NetworkInterfaceId: !Ref Eth0
       AllocationId: !GetAtt 
-        - VPNServerEIP
+        - VPNClientEIP
         - AllocationId
   SSHSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
@@ -166,11 +189,11 @@ Resources:
         - IpProtocol: '-1'
           FromPort: '-1'
           ToPort: '-1'
-          CidrIp: 10.8.0.0/24
+          CidrIp: !Ref VpcCIDR
   EC2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      ImageId: !FindInMap
+      ImageId: !FindInMap 
         - AWSRegionMap
         - !Ref 'AWS::Region'
         - !FindInMap 
@@ -185,19 +208,21 @@ Resources:
       SourceDestCheck: 'false'
       Tags:
         - Key: Name
-          Value: EasyVPNServer
-      UserData:
+          Value: EasyVPNClient
+      UserData: 
         Fn::Base64: !Sub
           # Inital EasyVPN Server environment
           - |
             #!/bin/bash -xe
             yum install -y wget
-            wget https://s3.${DownloadS3Region}.${S3Domain}/nwcdlabs/templates/easy-vpc-peering/EasyVPN_Server_Setup.sh
-            /bin/bash ./EasyVPN_Server_Setup.sh ${PSK}
-          - 
+            wget https://s3.${DownloadS3Region}.${S3Domain}/nwcdlabs/templates/easy-vpc-peering/EasyVPN_Client_Setup.sh
+            /bin/bash ./EasyVPN_Client_Setup.sh ${VPNServerIP} ${VpcCIDR} ${PSK}
+          -
             DownloadS3Region: !FindInMap [ AWSRegionMap, !Ref "AWS::Region", DownloadS3Region ]
             S3Domain: !FindInMap [ AWSRegionMap, !Ref "AWS::Region", S3Domain ]
-            PSK: !GetAtt TestCustomResource.PSK
+            VPNServerIP: !Ref VPNServerIP
+            VpcCIDR: !Ref VpcCIDR
+            PSK: !Ref PSK
   Eth0:
     Type: 'AWS::EC2::NetworkInterface'
     Properties:
@@ -211,72 +236,10 @@ Resources:
           Value: Interface 0
         - Key: Interface
           Value: eth0
-  TestCustomResource:
-    Type: 'Custom::TestCustomResourceWithLambda'
-    Properties:
-      ServiceToken: !GetAtt 
-        - TestLambdaFunction
-        - Arn
-  TestLambdaFunction:
-    Type: 'AWS::Lambda::Function'
-    Properties:
-      Handler: index.handler
-      Role: !GetAtt 
-        - TestLambdaExecutionRole
-        - Arn
-      Code:
-        ZipFile: |
-          from __future__ import print_function
-          import cfnresponse
-          import random
-          import string
-          print('Loading function')
-          def handler(event, context):
-            outputData = {}
-            outputData['PSK'] = ''.join([random.choice(string.hexdigits) for n in range(512)])
-            cfnresponse.send(event, context, cfnresponse.SUCCESS, outputData)
-      Timeout: '10'
-      MemorySize: '256'
-      Runtime: python3.6
-  TestLambdaExecutionRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - lambda.amazonaws.com
-            Action:
-              - 'sts:AssumeRole'
-      Path: /
-      Policies:
-        - PolicyName: cwlogs
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Effect: Allow
-                Action: 'logs:CreateLogGroup'
-                Resource: !Sub
-                  - arn:${AWSARN}:logs:${AWS::Region}:${AWS::AccountId}:*
-                  - AWSARN: !FindInMap [ AWSRegionMap, !Ref "AWS::Region", AWSARN ]
-              - Effect: Allow
-                Action:
-                  - 'logs:CreateLogStream'
-                  - 'logs:PutLogEvents'
-                Resource: !Sub
-                  - arn:${AWSARN}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*:*
-                  - AWSARN: !FindInMap [ AWSRegionMap, !Ref "AWS::Region", AWSARN ]
 Outputs:
   InstanceId:
     Value: !Ref EC2Instance
     Description: Instance Id of newly created instance
-  VPNServerIP:
-    Value: !Ref VPNServerEIP
-    Description: VPN Server EIP
-  PSK:
-    Value: !GetAtt 
-      - TestCustomResource
-      - PSK
-    Description: VPN PSK
+  VPNClientEIP:
+    Value: !Ref VPNClientEIP
+    Description: VPN Client EIP

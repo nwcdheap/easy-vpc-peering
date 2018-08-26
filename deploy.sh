@@ -46,9 +46,7 @@ global_test() {
 #FILES="EasyVPN_Server.template EasyVPN_Server.yaml EasyVPN_Server_Setup.sh"
 #global_test
 
-#FILES="EasyVPN_Client.template EasyVPN_Client.yaml EasyVPN_Client_Setup.sh"
-#FILES="EasyVPN_Server.template EasyVPN_Server.yaml EasyVPN_Server_Setup.sh EasyVPN_Client.template EasyVPN_Client.yaml EasyVPN_Client_Setup.sh"
-FILES="EasyVPN_Server.yaml EasyVPN_Server_Setup.sh"
+FILES="EasyVPN_Server.yaml EasyVPN_Server_Setup.sh EasyVPN_Client.yaml EasyVPN_Client_Setup.sh"
 china_test
 
 exit 0
