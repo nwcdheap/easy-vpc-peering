@@ -22,6 +22,17 @@
 如果你需要对两个VPC之间的数据有审查或者更加细粒度的控制，例如：访问日志记录，防火墙细则，流量控制。你可能还是需要在两端的基于EC2搭建的VPN服务器上搭建相应的软件或者配置更加细致的规则。
 
 ## 操作步骤(TODO)
+ 1. 启动宁夏区域EasyVPN Server模版
+    AWS Region   | YAML Format 
+    ------------ | ------------
+    宁夏区域 | [![launch-yaml](images/cloudformation-launch-stack-button.png)](https://console.amazonaws.cn/cloudformation/home?region=cn-northwest-1#/stacks/new?stackName=EasyVPNServer&amp;templateURL=https://s3.cn-northwest-1.amazonaws.com.cn/nwcdlabs/templates/easy-vpc-peering/EasyVPN_Server.yaml)
+ 2. 修改目标子网对应路由表信息，增加到北京区域VPC网段路由信息
+ 3. 启动北京区域EasyVPN Client模版
+    AWS Region   | YAML Format 
+    ------------ | ------------
+    北京区域 | [![launch-yaml](images/cloudformation-launch-stack-button.png)](https://console.amazonaws.cn/cloudformation/home?region=cn-northwest-1#/stacks/new?stackName=EasyVPNClient&amp;templateURL=https://s3.cn-northwest-1.amazonaws.com.cn/nwcdlabs/templates/easy-vpc-peering/EasyVPN_Client.yaml)
+ 4. 修改目标子网对应路由表信息，增加到宁夏区域VPC网段路由信息
+ 5. 测试连通性
 
 ## 性能测试(TODO)
 
