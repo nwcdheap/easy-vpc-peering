@@ -29,9 +29,9 @@
     宁夏区域 | [![launch-yaml](images/cloudformation-launch-stack-button.png)](https://console.amazonaws.cn/cloudformation/home?region=cn-northwest-1#/stacks/new?stackName=EasyVPNServer&amp;templateURL=https://s3.cn-northwest-1.amazonaws.com.cn/nwcdlabs/templates/easy-vpc-peering/EasyVPN_Server.yaml)
  2. 修改目标子网对应路由表信息，增加到北京区域VPC网段路由信息
   - 选择目标路由表, 添加从EasyVPNServer到北京VPC路由
-![EasyVPN Server Routing](images/ServerRouting.png)
+    ![EasyVPN Server Routing](images/ServerRouting.png)
   - 确认路由设定
-![EasyVPN Server Routing 1](images/ServerRouting-1.png)
+    ![EasyVPN Server Routing 1](images/ServerRouting-1.png)
     
  3. 启动北京区域EasyVPN Client模版
  
@@ -40,8 +40,26 @@
     北京区域 | [![launch-yaml](images/cloudformation-launch-stack-button.png)](https://console.amazonaws.cn/cloudformation/home?region=cn-north-1#/stacks/new?stackName=EasyVPNClient&amp;templateURL=https://s3.cn-northwest-1.amazonaws.com.cn/nwcdlabs/templates/easy-vpc-peering/EasyVPN_Client.yaml)
  4. 修改目标子网对应路由表信息，增加到宁夏区域VPC网段路由信息
  5. 测试连通性
+    - 从Private Client端ping Private Server地址
 
 ## 性能测试(TODO)
+  - 测试环境
+     设备  | 实例类型
+    ------ | ------------
+    EasyVPN Server | c4.large
+    Private Server | c4.large
+    EasyVPN Client | c4.large
+    Private Client | c4.large
+  - 测试方法
+    - Private Server
+    ```Bash
+    #iperf3 -s
+    ```
+    - Private client
+    ```Bash
+    #iperf3 -t 60 -c 172.31.x.x
+  - 测试结果
+    ![Performance ](images/performance.jpg)
 
 ## 高可用方案(TODO)
 
