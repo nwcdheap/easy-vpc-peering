@@ -44,6 +44,7 @@
 
 ## 性能测试(TODO)
   - 测试环境
+
      设备  | 实例类型
     ------ | ------------
     EasyVPN Server | c4.large
@@ -59,7 +60,7 @@
     ```Bash
     #iperf3 -t 60 -c 172.31.x.x
   - 测试结果
-    ![Performance ](images/performance.jpg)
+    ![Performance](images/performance.jpg)
 
 ## 高可用方案(TODO)
 
