@@ -1,14 +1,15 @@
 # Easy VPC Peering
-*更新时间: 2018/08/26*
+*更新时间: 2018/10/11*
 <br>
 <br>
 在AWS中国不同区域间快速建立VPC之间的互通
 
 ## 免责说明
-建议测试过程中使用此方案，生产环境使用请自行考虑评估。
-当您对方案需要进一步的沟通和反馈后，可以联系 nwcd_labs@nwcdcloud.cn 获得更进一步的支持。
+建议测试过程中使用此方案，生产环境使用请自行考虑评估。<br>
+当您对方案需要进一步的沟通和反馈后，可以联系 nwcd_labs@nwcdcloud.cn 获得更进一步的支持。<br>
+欢迎联系参与方案共建和提交方案需求, 也欢迎在 github 项目issue中留言反馈bugs。
 
-## 说明
+## 项目说明
 ![EasyVPN Architedcture](images/EasyVPCPeering.png)
 
 当前AWS中国区域暂时还不支持跨区域VPC Peering, 如果AWS中国宁夏区域和北京区域VPC之间要互联的话，现在可以采用的方式:
