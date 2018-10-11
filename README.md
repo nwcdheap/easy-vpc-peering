@@ -4,6 +4,10 @@
 <br>
 在AWS中国不同区域间快速建立VPC之间的互通
 
+## 免责说明
+建议测试过程中使用此方案，生产环境使用请自行考虑评估。
+当您对方案需要进一步的沟通和反馈后，可以联系 nwcd_labs@nwcdcloud.cn 获得更进一步的支持。
+
 ## 说明
 ![EasyVPN Architedcture](images/EasyVPCPeering.png)
 
@@ -13,6 +17,8 @@
 <br>
 
 本方案基于第1种方式，提供基于SSL VPN隧道技术(OpenVPN),快速在AWS中国两个区域之间，建立高可用的VPN通道。
+
+
 
 ## FAQ
 - 问：什么时候用这个方案?<br>
