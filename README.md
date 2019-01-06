@@ -35,7 +35,7 @@
  2. 修改目标子网对应路由表信息，增加到北京区域VPC网段路由信息
   - 选择目标路由表, 添加从EasyVPNServer到北京VPC路由
     <img src="images/ServerRouting.png" width="70%" alt="EasyVPN Server Routing">
-  - 确认路由设定
+  - 确认路由设定<br>
     <img src="images/ServerRouting-1.png" width="70%" alt="EasyVPN Server Routing 1">
     
  3. 启动北京区域EasyVPN Client模版
