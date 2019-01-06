@@ -19,8 +19,6 @@
 
 本方案基于第1种方式，提供基于SSL VPN隧道技术(OpenVPN),快速在AWS中国两个区域之间，建立高可用的VPN通道。
 
-
-
 ## FAQ
 - 问：什么时候用这个方案?<br>
 在AWS中国不同区域, 两个网段不重叠的VPC之间，如果需要互联，并且没有计划使用专线方式链接。
@@ -36,9 +34,9 @@
     宁夏区域 | [![launch-yaml](images/cloudformation-launch-stack-button.png)](https://console.amazonaws.cn/cloudformation/home?region=cn-northwest-1#/stacks/new?stackName=EasyVPNServer&amp;templateURL=https://s3.cn-northwest-1.amazonaws.com.cn/nwcdlabs/templates/easy-vpc-peering/EasyVPN_Server.yaml)
  2. 修改目标子网对应路由表信息，增加到北京区域VPC网段路由信息
   - 选择目标路由表, 添加从EasyVPNServer到北京VPC路由
-    ![EasyVPN Server Routing](images/ServerRouting.png)
+  <img src="images/ServerRouting.png" width="50%" alt="EasyVPN Server Routing">
   - 确认路由设定
-    ![EasyVPN Server Routing 1](images/ServerRouting-1.png)
+  <img src="images/ServerRouting-1.png" width="50%" alt="EasyVPN Server Routing 1">
     
  3. 启动北京区域EasyVPN Client模版
  
@@ -67,7 +65,8 @@
     ```Bash
     #iperf3 -t 60 -c 172.31.x.x
   - 测试结果
-    ![Performance](images/performance.jpg)
+  
+    <img src="images/performance.jpg" width="80%" alt="performance">
 
 ## 高可用方案(TODO)
 
