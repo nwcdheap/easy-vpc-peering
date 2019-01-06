@@ -1,5 +1,5 @@
 # Easy VPC Peering
-*更新时间: 2018/10/11*
+*更新时间: 2019/01/06*
 <br>
 <br>
 在AWS中国不同区域间快速建立VPC之间的互通
@@ -34,9 +34,9 @@
     宁夏区域 | [![launch-yaml](images/cloudformation-launch-stack-button.png)](https://console.amazonaws.cn/cloudformation/home?region=cn-northwest-1#/stacks/new?stackName=EasyVPNServer&amp;templateURL=https://s3.cn-northwest-1.amazonaws.com.cn/nwcdlabs/templates/easy-vpc-peering/EasyVPN_Server.yaml)
  2. 修改目标子网对应路由表信息，增加到北京区域VPC网段路由信息
   - 选择目标路由表, 添加从EasyVPNServer到北京VPC路由
-  <img src="images/ServerRouting.png" width="50%" alt="EasyVPN Server Routing">
+    <img src="images/ServerRouting.png" width="70%" alt="EasyVPN Server Routing">
   - 确认路由设定
-  <img src="images/ServerRouting-1.png" width="50%" alt="EasyVPN Server Routing 1">
+    <img src="images/ServerRouting-1.png" width="70%" alt="EasyVPN Server Routing 1">
     
  3. 启动北京区域EasyVPN Client模版
  
@@ -65,7 +65,6 @@
     ```Bash
     #iperf3 -t 60 -c 172.31.x.x
   - 测试结果
-  
     <img src="images/performance.jpg" width="80%" alt="performance">
 
 ## 高可用方案(TODO)
