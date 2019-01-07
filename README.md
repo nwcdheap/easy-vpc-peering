@@ -64,7 +64,7 @@
     - Private client
     ```Bash
     #iperf3 -t 60 -c 172.31.x.x
-  - 测试结果
+  - 测试结果<br>
     <img src="images/performance.jpg" width="80%" alt="performance">
 
 ## 高可用方案(TODO)
