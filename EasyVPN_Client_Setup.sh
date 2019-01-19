@@ -97,6 +97,7 @@ chmod +x $F
 echo "/data/openvpn/sbin/startup.sh" >> /etc/rc.local
 
 ## First run
-/data/openvpn/sbin/startup.sh
+# No need to start manually, cloud-init is before rc.local
+#/data/openvpn/sbin/startup.sh
 
 exit 0
