@@ -82,7 +82,7 @@
     - 从Private Client端ping Private Server地址: 需要通过
     - 从Private Server端ping Private Client: 需要通过
 
-## 性能测试(TODO)
+## 性能测试
   - 测试环境
 
      设备  | 实例类型
@@ -103,6 +103,13 @@
     <img src="images/performance.jpg" width="80%" alt="performance">
 
 ## 高可用方案(TODO)
+  - [HA计划](https://github.com/nwcdlabs/easy-vpc-peering/projects/3
+  )
+    - 阶段一: VPN Server/Client 增加Auto Recovery
+    - 阶段二: 增加第二对VPN Server/Client, 启用keepalived监控并更新路由表 
+
+## 成本(TODO)
+  - [SPOT计划](https://github.com/nwcdlabs/easy-vpc-peering/projects/2)
 
 ## 参考
 - [Multiple Region Multi-VPC Connectivity](https://aws.amazon.com/cn/answers/networking/aws-multiple-region-multi-vpc-connectivity/)
