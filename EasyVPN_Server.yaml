@@ -35,6 +35,13 @@ Parameters:
     Default: 0.0.0.0/0
     AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+  PeerVPNSubnets:
+    Description: Peer VPN Subnets, could include multiple subnets seperated by comma. eg. 192.168.0.0/16,10.1.0.0/16
+    Type: String
+    MinLength: '9'
+    MaxLength: '512'
+    Default: 0.0.0.0/0
+    ConstraintDescription: subnets format
 Mappings:
   AWSInstanceType2Arch:
     t2.micro:
@@ -193,11 +200,12 @@ Resources:
             #!/bin/bash -xe
             yum install -y wget
             wget https://s3.${DownloadS3Region}.${S3Domain}/nwcdlabs/templates/easy-vpc-peering/EasyVPN_Server_Setup.sh
-            /bin/bash ./EasyVPN_Server_Setup.sh ${PSK}
+            /bin/bash ./EasyVPN_Server_Setup.sh ${PSK} ${PeerVPNSubnets}
           - 
             DownloadS3Region: !FindInMap [ AWSRegionMap, !Ref "AWS::Region", DownloadS3Region ]
             S3Domain: !FindInMap [ AWSRegionMap, !Ref "AWS::Region", S3Domain ]
             PSK: !GetAtt TestCustomResource.PSK
+            PeerVPNSubnets: !Ref PeerVPNSubnets
   Eth0:
     Type: 'AWS::EC2::NetworkInterface'
     Properties:

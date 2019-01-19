@@ -41,8 +41,8 @@ killall openvpn
 echo 1 > /proc/sys/net/ipv4/ip_forward
 
 ## IPtables
-/sbin/iptables -t nat -A POSTROUTING -o tun+ -j MASQUERADE
-/sbin/iptables -t nat -A POSTROUTING -o eth+ -j MASQUERADE
+#/sbin/iptables -t nat -A POSTROUTING -o tun+ -j MASQUERADE
+#/sbin/iptables -t nat -A POSTROUTING -o eth+ -j MASQUERADE
 
 exit 0" > $F
 chmod +x $F
