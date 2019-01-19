@@ -34,6 +34,7 @@
     宁夏区域 | [![launch-yaml](images/cloudformation-launch-stack-button.png)](https://console.amazonaws.cn/cloudformation/home?region=cn-northwest-1#/stacks/new?stackName=EasyVPNServer&amp;templateURL=https://s3.cn-northwest-1.amazonaws.com.cn/nwcdlabs/templates/easy-vpc-peering/EasyVPN_Server.yaml)
 
     参数说明
+    
     参数名称  | 参数含义  | 取值
     --------  | -------- | -----
     InstanceType | 实例类型 | 下拉选择：t2.micro(测试使用),c4.large(正式使用)
