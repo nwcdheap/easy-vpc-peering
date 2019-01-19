@@ -77,11 +77,10 @@
     VpcId | VPN Client实例所在VPC | 下拉选择
     VPNServerIP | 对端VPN服务器IP地址 | 文本框: 从EasyVPNServer模板输出VPNServerIP获取
 
-
-
  4. 修改目标子网对应路由表信息，增加到宁夏区域VPC网段路由信息
  5. 测试连通性
-    - 从Private Client端ping Private Server地址
+    - 从Private Client端ping Private Server地址: 需要通过
+    - 从Private Server端ping Private Client: 需要通过
 
 ## 性能测试(TODO)
   - 测试环境
