@@ -22,33 +22,29 @@ validate_templates () {
 
 server_setup() {
 	## Setup EasyVPN Server in Seoul(Korea)
-	aws --profile $PROFILE --region $REGION cloudformation create-stack  \
-		--stack-name EasyVPNServer \
+	aws --profile ${SERVER_PROFILE} --region ${SERVER_REGION} cloudformation create-stack  \
+		--stack-name ${SERVER_StackName} \
 		--template-body file://EasyVPN_Server.yaml \
-		--capabilities CAPABILITY_IAM  \
+		--capabilities CAPABILITY_IAM \
 		--parameters \
-			ParameterKey=InstanceType,ParameterValue=t2.micro \
-			ParameterKey=KeyName,ParameterValue=nx-test \
-			ParameterKey=VpcId,ParameterValue=vpc-dc2ddeb5  \
-			ParameterKey=SubnetId,ParameterValue=subnet-3bb67352
+			ParameterKey=InstanceType,ParameterValue=${SERVER_InstanceType} \
+			ParameterKey=KeyName,ParameterValue=${SERVER_KeyName} \
+			ParameterKey=VpcId,ParameterValue=${SERVER_VpcId} \
+			ParameterKey=SubnetId,ParameterValue=${SERVER_SubnetId} \
+			ParameterKey=PeerVPNSubnets,ParameterValue=\"${SERVER_PeerVPNSubnets}\"
 
 	## Check status
-	aws --profile $PROFILE --region $REGION cloudformation list-stacks --output json --stack-status-filter CREATE_IN_PROGRESS
+	aws --profile ${SERVER_PROFILE} --region ${SERVER_REGION} cloudformation list-stacks --output json --stack-status-filter CREATE_IN_PROGRESS
 
 	## Get output
-    aws --profile $PROFILE --region $REGION cloudformation describe-stacks --stack-name EasyVPNServer --output json --query 'Stacks[*].Outputs[*]'
+    	#aws --profile ${SERVER_PROFILE} --region ${SERVER_REGION} cloudformation describe-stacks --stack-name ${SERVER_StackName}   --output json --query 'Stacks[*].Outputs[*]'
 }
 
 server_destroy() {
 	aws --profile $PROFILE --region $REGION cloudformation delete-stack \
-		--stack-name EasyVPNServer
+		--stack-name ${SERVER_StackName}
 }
 
-
-client_destroy() {
-	aws --profile $PROFILE --region $REGION cloudformation delete-stack \
-		--stack-name EasyVPNClient
-}
 
 ### Main
 [ -f $CONF ] || err_quit "Missing $CONF"
