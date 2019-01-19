@@ -43,6 +43,15 @@
     SSHLocation | Server实例允许SSH访问网段 | 文本框: 地址网段
     SubnetId | Server实例所在网段 | 下拉选择
     VpcId | Server实例所在VPC | 下拉选择
+
+    输出说明
+
+    参数名称  | 参数含义  | 取值
+    --------  | -------- | -----
+    PSK | VPN通道共享密钥 | Lambda函数自动生成512字节随机共享密钥
+    InstanceId | VPN Server实例ID | 
+    VPNServerIP | 对端VPN服务器IP地址 | 
+
  2. 修改目标子网对应路由表信息，增加到北京区域VPC网段路由信息
   - 选择目标路由表, 添加从EasyVPNServer到北京VPC路由
     <img src="images/ServerRouting.png" width="70%" alt="EasyVPN Server Routing">
@@ -54,6 +63,22 @@
     AWS Region   | YAML Format 
     ------------ | ------------
     北京区域 | [![launch-yaml](images/cloudformation-launch-stack-button.png)](https://console.amazonaws.cn/cloudformation/home?region=cn-north-1#/stacks/new?stackName=EasyVPNClient&amp;templateURL=https://s3.cn-northwest-1.amazonaws.com.cn/nwcdlabs/templates/easy-vpc-peering/EasyVPN_Client.yaml)
+
+    参数说明
+    
+    参数名称  | 参数含义  | 取值
+    --------  | -------- | -----
+    InstanceType | 实例类型 | 下拉选择：t2.micro(测试使用),c4.large(正式使用)
+    KeyName | EC2登陆密钥对名称 | 下拉选择
+    PeerVPNSubnets | 对端VPC网段 | 文本框: 可以是多个VPC网段，逗号分隔
+    PSK | VPN通道共享密钥 | 文本框: 从EasyVPNServer模板输出的PSK获取
+    SSHLocation | Server实例允许SSH访问网段 | 文本框: 地址网段
+    SubnetId | VPN Client实例所在网段 | 下拉选择
+    VpcId | VPN Client实例所在VPC | 下拉选择
+    VPNServerIP | 对端VPN服务器IP地址 | 文本框: 从EasyVPNServer模板输出VPNServerIP获取
+
+
+
  4. 修改目标子网对应路由表信息，增加到宁夏区域VPC网段路由信息
  5. 测试连通性
     - 从Private Client端ping Private Server地址

@@ -79,7 +79,7 @@ function refresh_to_vpn_route()
 while [ 1 ]; do
     CHG=0
 
-    if [ \`/sbin/ip route list table main  | grep -c \"via ${VPN_GW}\"\` -eq 0 ]; then
+    if [ \`/sbin/ip route list table main  | grep -c \"via \${VPN_GW}\"\` -eq 0 ]; then
         refresh_to_vpn_route
         do_log \"refresh_to_vpn_route\"
         CHG=1
