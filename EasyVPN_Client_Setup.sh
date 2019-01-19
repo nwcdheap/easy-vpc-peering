@@ -73,15 +73,15 @@ function refresh_to_vpn_route()
 		/sbin/ip route add \$N via \${VPN_GW} table main
 	done
 
-    /sbin/ip route fulsh cache
+    /sbin/ip route flush cache
 }
 
 while [ 1 ]; do
     CHG=0
 
-    if [ \`/sbin/ip route list table main  | grep -c \"via 10.8.0.1\"\` -eq 0 ]; then
+    if [ \`/sbin/ip route list table main  | grep -c \"via ${VPN_GW}\"\` -eq 0 ]; then
         refresh_to_vpn_route
-        do_log "refresh_to_vpn_route"
+        do_log \"refresh_to_vpn_route\"
         CHG=1
     fi
 

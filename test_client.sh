@@ -32,7 +32,7 @@ client_setup() {
 			ParameterKey=VpcCIDR,ParameterValue=${CLIENT_VpcCIDR} \
 			ParameterKey=VPNServerIP,ParameterValue=${CLIENT_VPNServerIP} \
 			ParameterKey=PSK,ParameterValue=${CLIENT_PSK} \
-			ParameterKey=PeerVPNSubnets,ParameterValue=${CLIENT_PeerVPNSubnets}
+			ParameterKey=PeerVPNSubnets,ParameterValue=\"${CLIENT_PeerVPNSubnets}\"
 
 	## Check status
 	aws --profile $PROFILE --region $REGION cloudformation list-stacks --output json --stack-status-filter CREATE_IN_PROGRESS

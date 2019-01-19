@@ -30,14 +30,14 @@ server_setup() {
 			ParameterKey=InstanceType,ParameterValue=${SERVER_InstanceType} \
 			ParameterKey=KeyName,ParameterValue=${SERVER_KeyName} \
 			ParameterKey=VpcId,ParameterValue=${SERVER_VpcId} \
-			ParameterKey=SubnetId,ParameterValue=${SERVER_SubnetId}
-			ParameterKey=PeerVPNSubnets,ParameterValue=${SERVER_PeerVPNSubnets}
+			ParameterKey=SubnetId,ParameterValue=${SERVER_SubnetId} \
+			ParameterKey=PeerVPNSubnets,ParameterValue=\"${SERVER_PeerVPNSubnets}\"
 
 	## Check status
-	aws --profile $PROFILE --region $REGION cloudformation list-stacks --output json --stack-status-filter CREATE_IN_PROGRESS
+	aws --profile ${SERVER_PROFILE} --region ${SERVER_REGION} cloudformation list-stacks --output json --stack-status-filter CREATE_IN_PROGRESS
 
 	## Get output
-    aws --profile ${SERVER_PROFILE} --region ${SERVER_REGION} cloudformation describe-stacks --stack-name ${SERVER_StackName}   --output json --query 'Stacks[*].Outputs[*]'
+    	#aws --profile ${SERVER_PROFILE} --region ${SERVER_REGION} cloudformation describe-stacks --stack-name ${SERVER_StackName}   --output json --query 'Stacks[*].Outputs[*]'
 }
 
 server_destroy() {

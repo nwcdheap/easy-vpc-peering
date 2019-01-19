@@ -1,5 +1,5 @@
 # Easy VPC Peering
-*更新时间: 2019/01/06*
+*更新时间: 2019/01/20*
 <br>
 <br>
 在AWS中国不同区域间快速建立VPC之间的互通
@@ -26,12 +26,22 @@
 - 问：如果AWS中国区域支持跨区域VPC Peering了，还需要这个方案吗? <br>
 如果你需要对两个VPC之间的数据有审查或者更加细粒度的控制，例如：访问日志记录，防火墙细则，流量控制。你可能还是需要在两端的基于EC2搭建的VPN服务器上搭建相应的软件或者配置更加细致的规则。
 
-## 操作步骤(TODO)
+## 操作步骤
  1. 启动宁夏区域EasyVPN Server模版
  
     AWS Region   | YAML Format 
     ------------ | ------------
     宁夏区域 | [![launch-yaml](images/cloudformation-launch-stack-button.png)](https://console.amazonaws.cn/cloudformation/home?region=cn-northwest-1#/stacks/new?stackName=EasyVPNServer&amp;templateURL=https://s3.cn-northwest-1.amazonaws.com.cn/nwcdlabs/templates/easy-vpc-peering/EasyVPN_Server.yaml)
+
+    参数说明
+    参数名称  | 参数含义  | 取值
+    --------  | -------- | -----
+    InstanceType | 实例类型 | 下拉选择：t2.micro(测试使用),c4.large(正式使用)
+    KeyName | EC2登陆密钥对名称 | 下拉选择
+    PeerVPNSubnets | 对端VPC网段 | 文本框: 可以是多个VPC网段，逗号分隔
+    SSHLocation | Server实例允许SSH访问网段 | 文本框: 地址网段
+    SubnetId | Server实例所在网段 | 下拉选择
+    VpcId | Server实例所在VPC | 下拉选择
  2. 修改目标子网对应路由表信息，增加到北京区域VPC网段路由信息
   - 选择目标路由表, 添加从EasyVPNServer到北京VPC路由
     <img src="images/ServerRouting.png" width="70%" alt="EasyVPN Server Routing">
