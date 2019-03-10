@@ -18,6 +18,7 @@ Parameters:
     AllowedValues:
       - t2.micro
       - c4.large
+      - c5.large
     ConstraintDescription: must be a valid EC2 instance type.
   VpcId:
     Type: 'AWS::EC2::VPC::Id'

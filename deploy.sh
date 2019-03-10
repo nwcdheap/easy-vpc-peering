@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 FILES=""
 
 # AWS China
@@ -20,8 +19,6 @@ china_test() {
 	done
 }
 
-
-
 # AWS Global
 global_test() {
 	PROFILE=global_admin
@@ -38,8 +35,6 @@ global_test() {
 		echo "Upload done: https://s3-$REGION.amazonaws.com/$BUCKET/$KEY"
 	done
 }
-
-
 
 # 
 #FILES="EasyVPN_Server.template EasyVPN_Server.yaml EasyVPN_Server_Setup.sh EasyVPN_Client.template EasyVPN_Client.yaml EasyVPN_Client_Setup.sh"
